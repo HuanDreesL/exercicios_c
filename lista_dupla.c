@@ -44,22 +44,17 @@ TpLista* inserir(TpLista* q) {
 	scanf_s("%s", novo->info.nome, sizeof(novo->info.nome));
 	printf("Preco do produto: ");
 	scanf_s("%f", &novo->info.preco);
+	novo->next = NULL;
+	novo->prev = q->last;
 
-	if (q->nItens == 0) 
-	{
+	if (q->nItens == 0) {
 		q->first = novo;
-		novo->prev = NULL;
-		novo->next = NULL;
-		q->last = novo;
-		q->nItens++;
 	}
-	else 
-	{
+	else {
 		q->last->next = novo;
-		novo->prev = q->last;
-		q->last = novo;
 	}
 
+	q->last = novo;
 	q->nItens++;
 
 	printf("\nProduto inserido com sucesso.\n");
@@ -95,6 +90,7 @@ TpLista* remover(TpLista* p) {
 	if (p->nItens == 0) 
 	{
 		printf("Nenhum item na lista.\n");
+		return p;
 	}
 
 	printf("Digite o codigo do produto: ");
@@ -110,6 +106,7 @@ TpLista* remover(TpLista* p) {
 	if (atual == NULL) 
 	{
 		printf("Produto nao encontrado.\n");
+		return p;
 	}
 
 	if (atual == p->first) {
