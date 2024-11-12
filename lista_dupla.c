@@ -35,7 +35,7 @@ TpLista* inserir(TpLista* q) {
 
 	if (novo == NULL) 
 	{
-		printf("***ERRO DE ALOCACAO***");
+		printf("\n***ERRO DE ALOCACAO***");
 	}
 
 	printf("Codigo do produto: ");
@@ -62,7 +62,7 @@ TpLista* inserir(TpLista* q) {
 
 	q->nItens++;
 
-	printf("Produto inserido com sucesso.\n");
+	printf("\nProduto inserido com sucesso.\n");
 
 	return q;
 
@@ -72,7 +72,8 @@ void imprimir(TpLista* p) {
 
 	if (p->nItens == 0) 
 	{
-		printf("Lista vazia.");
+		printf("Lista vazia.\n");
+		return;
 	}
 
 	TpNodo* atual = p->first;
@@ -80,17 +81,67 @@ void imprimir(TpLista* p) {
 	while (atual != NULL)
 	{
 		printf("Codigo: %d\n", atual->info.codigo);
-		printf("Nome: %d\n", atual->info.nome);
-		printf("Preco: %d\n", atual->info.preco);
+		printf("Nome: %s\n", atual->info.nome);
+		printf("Preco: %f\n", atual->info.preco);
 		atual = atual->next;
 	}
 }
 
-/*
+
 TpLista* remover(TpLista* p) {
 
+	int codigo;
+	
+	if (p->nItens == 0) 
+	{
+		printf("Nenhum item na lista.\n");
+	}
+
+	printf("Digite o codigo do produto: ");
+	scanf_s("%d", &codigo);
+
+	TpNodo* atual = p->first;
+
+	while (atual != NULL && atual->info.codigo != codigo) 
+	{
+		atual = atual->next;
+	}
+
+	if (atual == NULL) 
+	{
+		printf("Produto nao encontrado.\n");
+	}
+
+	if (atual == p->first) {
+		p->first = atual->next;
+		if (p->first != NULL) {
+			p->first->prev = NULL;
+		}
+		else {
+			p->last = NULL;
+		}
+	}
+
+	else if (atual == p->last) {
+		p->last = atual->prev;
+		if (p->last != NULL) {
+			p->last->next = NULL;
+		}
+	}
+
+	else {
+		atual->prev->next = atual->next;
+		atual->next->prev = atual->prev;
+	}
+
+	free(atual);
+	p->nItens--;
+
+	printf("Produto removido com sucesso.\n");
+
+	return p;
 }
-*/
+
 
 
 int main() {
@@ -114,6 +165,7 @@ int main() {
 			inserir(q);
 			break;
 		case 2:
+			remover(q);
 			break;
 		case 3:
 			imprimir(q);
